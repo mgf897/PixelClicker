@@ -21,37 +21,32 @@ function tableCreate(rows, cols){
 
 function tableText(myCell) {
 	myCell.colorIdx = myCell.colorIdx || 0;
-    myCell.style.backgroundColor = backgrounds[myCell.colorIdx++ % backgrounds.length];
+    myCell.style.backgroundColor = palette[myCell.colorIdx++ % palette.length];
 	updateJSON();
 }
 
 function updateJSON(){
 	if (table != null) {
-		colorMap = [];
+		var colorIndexes = [];
 		for (var i = 0; i < table.rows.length; i++) {
 			for (var j = 0; j < table.rows[i].cells.length; j++){
 				//Retrive background color
 				//colorMap += table.rows[i].cells[j].style.backgroundColor;
 				//cellColor = getComputedStyle(table.rows[i].cells[j], null).getPropertyValue("background-color").replace(/[^\d,]/g, '').split(',');
-				colorIndex = table.rows[i].cells[j].colorIdx
-				colorMap.push(" "+colorIndex);
+				var colorIndex = table.rows[i].cells[j].colorIdx
+				colorIndexes.push(colorIndex);
 			}
 		}
-		document.getElementById("JSONdata").innerHTML = colorMap;
+		
+		var colorMap = {"palette":palette,"data":colorIndexes}
+		document.getElementById("JSONdata").innerHTML = JSON.stringify(colorMap);
+		console.log(colorMap);
 	}
 }
 
 
 
 tableCreate(8,8);
-var backgrounds = ["red","orange","yellow","green","lightblue","blue","pink","purple","white"];
+var palette = ["red","orange","yellow","green","lightblue","blue","pink","purple","white"];
 var table = document.getElementById("tbl_pixel");
 updateJSON();
-//if (table != null) {
-//    for (var i = 0; i < table.rows.length; i++) {
-//        for (var j = 0; j < table.rows[i].cells.length; j++)
-//			table.rows[i].cells[j].onclick = function () {
-//				tableText(this);
-//			};		
-//    }
-//}
