@@ -1,5 +1,5 @@
 table {
-  width: 40%;
+	width:100%;
 
 }
 td {
@@ -18,3 +18,12 @@ td .content {
   left: 0;
   right: 0;
 }
+
+#pixel{
+	
+}
+
+#pixelJSON{
+	
+}
+

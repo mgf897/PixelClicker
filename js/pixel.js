@@ -20,7 +20,7 @@ function tableCreate(rows, cols){
 }
 
 tableCreate(8,8);
-var backgrounds = ["red","orange","yellow","green","light-blue","blue","pink","purple","white"];
+var backgrounds = ["red","orange","yellow","green","lightblue","blue","pink","purple","white"];
 
 var table = document.getElementById("tbl_pixel");
 if (table != null) {
@@ -47,7 +47,8 @@ function exportJSON(){
 			for (var j = 0; j < table.rows[i].cells.length; j++){
 				//Retrive background color
 				//colorMap += table.rows[i].cells[j].style.backgroundColor;
-				colorMap.push(getComputedStyle(table.rows[i].cells[j], null).getPropertyValue("background-color"));
+				cellColor = getComputedStyle(table.rows[i].cells[j], null).getPropertyValue("background-color").replace(/[^\d,]/g, '').split(',');
+				colorMap.push(" "+cellColor);
 			}
 		}
 		document.getElementById("pixelJSON").innerHTML = colorMap;

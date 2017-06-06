@@ -2,23 +2,27 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	
 	<title>PixelClicker</title>
 	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/bootstrap-darkly.min.css">
+
 </head>
 
 <body>
-
-	<h1>PixelClicker</h1>
-	<div id="pixel"></div>
-	<div id="pixelJSON"></div>
-	<div id="notes">
-		TODO:
-		<ul>
-			<li>Add JSON representation of image</li>
-			<li>Add animation</li>
-			<li>Responsive design</li>
-		</li>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>PixelClicker</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div id="pixel" class="col-md-6"></div>
+			<div id="pixelJSON" class="col-md-6"></div>
+		</div>
 	</div>
+	
 	<script src="js/pixel.js"></script>
 </body>
 </html>
