@@ -33,14 +33,14 @@ function updateJSON(){
 				//Retrive background color
 				//colorMap += table.rows[i].cells[j].style.backgroundColor;
 				//cellColor = getComputedStyle(table.rows[i].cells[j], null).getPropertyValue("background-color").replace(/[^\d,]/g, '').split(',');
-				var colorIndex = table.rows[i].cells[j].colorIdx
+				var colorIndex = table.rows[i].cells[j].colorIdx % palette.length;
 				colorIndexes.push(colorIndex);
 			}
 		}
 		
 		var colorMap = {"palette":palette,"data":colorIndexes}
 		document.getElementById("JSONdata").innerHTML = JSON.stringify(colorMap);
-		console.log(colorMap);
+		//console.log(colorMap);
 	}
 }
 
