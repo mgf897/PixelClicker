@@ -13,16 +13,19 @@ function tableCreate(rows, cols){
 			td.style.border = '1px solid black';
 			td.style.backgroundColor = 'white';
 			td.colorIdx = 0;
-			td.onclick = function () {tableText(this);};			
+			td.onclick = function () {tableText(this);};
+		
 			}
         }
     myDiv.appendChild(tbl);
 }
 
 function tableText(myCell) {
-	myCell.colorIdx = myCell.colorIdx || 0;
-    myCell.style.backgroundColor = palette[myCell.colorIdx++ % palette.length];
+	myCell.colorIdx++;
+	//myCell.colorIdx = myCell.colorIdx || 0;
+    myCell.style.backgroundColor = palette[myCell.colorIdx % palette.length];
 	updateJSON();
+	//
 }
 
 function updateJSON(){
@@ -30,9 +33,6 @@ function updateJSON(){
 		var colorIndexes = [];
 		for (var i = 0; i < table.rows.length; i++) {
 			for (var j = 0; j < table.rows[i].cells.length; j++){
-				//Retrive background color
-				//colorMap += table.rows[i].cells[j].style.backgroundColor;
-				//cellColor = getComputedStyle(table.rows[i].cells[j], null).getPropertyValue("background-color").replace(/[^\d,]/g, '').split(',');
 				var colorIndex = table.rows[i].cells[j].colorIdx % palette.length;
 				colorIndexes.push(colorIndex);
 			}
@@ -41,12 +41,46 @@ function updateJSON(){
 		var colorMap = {"palette":palette,"data":colorIndexes}
 		document.getElementById("JSONdata").innerHTML = JSON.stringify(colorMap);
 		//console.log(colorMap);
+		
+		$.ajax({
+			url:"https://api.myjson.com/bins/8d1b3",
+			type:"PUT",
+			data:colorMap,
+			contentType:"application/json; charset=utf-8",
+			dataType:"json",
+			success: function(data, textStatus, jqXHR){
+				console.log("updated")
+			}
+		}); 
+		
 	}
 }
 
+function loadJSON(){
+	
+	//load data from myjson
+	myjsonURL = "https://api.myjson.com/bins/8d1b3"
+	webData = 0;
+	
+	$.get(myjsonURL, function(data, textStatus, jqXHR) {
+		populateJSON(data);
+	})
+}
 
+function populateJSON(webData){
+	palette = webData.palette;
+	var k = 0;
+		for (var i = 0; i < table.rows.length; i++) {
+			for (var j = 0; j < table.rows[i].cells.length; j++){
+				table.rows[i].cells[j].style.backgroundColor = webData.palette[webData.data[k]];
+				table.rows[i].cells[j].colorIdx = webData.data[k];
+				k++;
+			}
+		}
+	updateJSON();
+}
 
 tableCreate(8,8);
-var palette = ["red","orange","yellow","green","lightblue","blue","pink","purple","white"];
+var palette = ["white","red","orange","yellow","green","lightblue","blue","pink","purple"];
 var table = document.getElementById("tbl_pixel");
-updateJSON();
+loadJSON();
